@@ -1,5 +1,5 @@
 <?php
-$config = parse_ini_file('phpsocket.ini');
+$config = parse_ini_file('phpsocketconfig.ini');
 date_default_timezone_set("Asia/Jakarta");
 if (!defined('MSG_DONTWAIT')) define('MSG_DONTWAIT', 0x40);
 error_reporting($config['debug'] ? E_ALL : 0);
@@ -25,7 +25,7 @@ if (!file_exists($log_folder)) {
 }
 
 $url_app_bo = $config['bo_url_api'];
-$curr_date = date('Y-m-09');
+$curr_date = date('Y-m-d');
 
 while (true) {
     //Log File Name ditaro dilooping supaya berubah keesokan harinya
@@ -97,6 +97,9 @@ while (true) {
 
                     if (($send = socket_write($socket, $line, strlen($line))) === false) {
                         $log = "[" . date('Y-m-d H:i:s') . "]" . "130. socket_write() failed. Reason: ($result) " . socket_strerror(socket_last_error($socket));
+                        $handle = fopen($log_file, "a+");
+                        fwrite($handle, $log);
+                        fclose($handle);
                         socket_shutdown($socket, 2); //30.08.2021
                         break;
                     } else {
