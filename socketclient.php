@@ -48,7 +48,6 @@ while (true) {
     socket_set_nonblock($socket);
     if ($result === false) {
         $log = "[" . date('Y-m-d H:i:s') . "]" . "120. socket_connect() failed. Reason: ($result) " . socket_strerror(socket_last_error($socket)) . "\n";
-        //sleep($time_interval);//30.08.2021
     } else {
         $log = "[" . date('Y-m-d H:i:s') . "]" . '1. Connected to server IP : ' . $address . ' Port : ' . $service_port . "\n";
     }
